@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, type PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { nanoid } from '@reduxjs/toolkit'
 import type { Quest, DailyCompletion } from '../types/quest'
 import {
