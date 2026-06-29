@@ -26,7 +26,7 @@ export default function AppLayout() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', bgcolor: 'background.default' }}>
       <Box sx={{
-        px: 3, py: 1.75,
+        px: 3, pt: 'calc(14px + env(safe-area-inset-top))', pb: 1.75,
         borderBottom: '1px solid', borderColor: 'divider',
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       }}>
@@ -51,12 +51,12 @@ export default function AppLayout() {
         </IconButton>
       </Box>
 
-      <Box sx={{ flex: 1, overflow: 'auto', pb: '70px' }}>
+      <Box sx={{ flex: 1, overflow: 'auto', pb: 'calc(70px + env(safe-area-inset-bottom))' }}>
         <Outlet />
       </Box>
 
       <Paper
-        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 10, borderTop: '1px solid', borderColor: 'divider' }}
+        sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 10, borderTop: '1px solid', borderColor: 'divider', pb: 'env(safe-area-inset-bottom)' }}
         elevation={0}
       >
         <BottomNavigation
