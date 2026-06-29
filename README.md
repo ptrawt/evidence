@@ -50,6 +50,7 @@ Create `.env.local`:
 ```env
 VITE_SUPABASE_URL=your_supabase_project_url
 VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_VAPID_PUBLIC_KEY=your_vapid_public_key
 ```
 
 > Use only the **anon/public** key — never the service role secret key.
@@ -222,6 +223,23 @@ create policy "Users manage own photos" on public.progress_photos
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 ```
 
+Also add the **push subscriptions** table:
+
+```sql
+CREATE TABLE push_subscriptions (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id uuid REFERENCES auth.users NOT NULL,
+  endpoint text UNIQUE NOT NULL,
+  p256dh text NOT NULL,
+  auth text NOT NULL,
+  reminder_hour smallint NOT NULL DEFAULT 8,
+  created_at timestamptz DEFAULT now()
+);
+ALTER TABLE push_subscriptions ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Users manage own subscriptions" ON push_subscriptions
+  FOR ALL USING (auth.uid() = user_id);
+```
+
 Also create a **Storage bucket** named `progress-photos` (private) with policy:
 ```sql
 create policy "Users manage own photos storage" on storage.objects
@@ -229,17 +247,50 @@ create policy "Users manage own photos storage" on storage.objects
   with check (auth.uid()::text = (storage.foldername(name))[1]);
 ```
 
-### 4. Run locally
+### 4. Push notifications (optional)
+
+Generate VAPID keys:
+```bash
+npx web-push generate-vapid-keys
+```
+
+Add public key to `.env.local` (`VITE_VAPID_PUBLIC_KEY`), then set Supabase secrets:
+```bash
+SUPABASE_ACCESS_TOKEN=<token> npx supabase secrets set \
+  --project-ref <ref> \
+  VAPID_PUBLIC_KEY=<public> \
+  VAPID_PRIVATE_KEY=<private> \
+  VAPID_SUBJECT=mailto:<email>
+```
+
+Deploy the edge function:
+```bash
+SUPABASE_ACCESS_TOKEN=<token> npx supabase functions deploy send-daily-push --project-ref <ref>
+```
+
+Schedule hourly cron in Supabase SQL Editor (enable `pg_cron` + `pg_net` extensions first):
+```sql
+SELECT cron.schedule('daily-push', '0 * * * *', $$
+  SELECT net.http_post(
+    url := 'https://<ref>.supabase.co/functions/v1/send-daily-push',
+    headers := '{"Authorization": "Bearer <service_role_key>", "Content-Type": "application/json"}'::jsonb,
+    body := '{}'::jsonb
+  )
+$$);
+```
+
+### 5. Run locally
 
 ```bash
 npm run dev
 ```
 
-### 5. Deploy to Vercel
+### 6. Deploy to Vercel
 
 Set environment variables in Vercel dashboard:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
+- `VITE_VAPID_PUBLIC_KEY`
 
 ## Architecture
 
