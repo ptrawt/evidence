@@ -122,8 +122,8 @@ function PlanItemCard({ item }: { item: PlanItem }) {
           <Box sx={{ flex: 1 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
               <Typography
-                variant="body2" fontWeight={700}
-                sx={{ textDecoration: item.completed ? 'line-through' : 'none', color: item.completed ? 'text.secondary' : 'text.primary' }}
+                variant="body2"
+                sx={{ fontWeight: 700, textDecoration: item.completed ? 'line-through' : 'none', color: item.completed ? 'text.secondary' : 'text.primary' }}
               >
                 {item.type === 'workout' ? '🏋️ ' : ''}{item.title}
               </Typography>
@@ -161,7 +161,7 @@ function PlanItemCard({ item }: { item: PlanItem }) {
                 {i > 0 && <Divider sx={{ my: 0.75 }} />}
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <Box>
-                    <Typography variant="body2" fontWeight={600}>{ex.name}</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>{ex.name}</Typography>
                     <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                       {ex.sets}×{ex.reps}{ex.weightKg ? ` · ${ex.weightKg}kg` : ''}
                     </Typography>
@@ -279,7 +279,7 @@ export default function PlannerHub() {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 3 }}>
-        <Typography variant="h5" fontWeight={800}>📅 Planner</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 800 }}>📅 Planner</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
           วาง sessions ล่วงหน้า · workouts & tasks เฉพาะวัน
         </Typography>
@@ -314,8 +314,8 @@ export default function PlannerHub() {
               <Typography variant="caption" sx={{ color: 'text.secondary', fontSize: '0.6rem', display: 'block', fontWeight: 600 }}>
                 {DAY_LABELS[i]}
               </Typography>
-              <Typography variant="body2" fontWeight={isToday || isSelected ? 800 : 400}
-                sx={{ color: isSelected ? 'primary.main' : isToday ? 'text.primary' : 'text.secondary', lineHeight: 1.6 }}>
+              <Typography variant="body2"
+                sx={{ fontWeight: isToday || isSelected ? 800 : 400, color: isSelected ? 'primary.main' : isToday ? 'text.primary' : 'text.secondary', lineHeight: 1.6 }}>
                 {d.getDate()}
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', gap: 0.4, mt: 0.25, minHeight: 6 }}>
@@ -331,7 +331,7 @@ export default function PlannerHub() {
       {/* Selected day */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
         <Box>
-          <Typography variant="subtitle2" fontWeight={700}>{selectedDateLabel}</Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{selectedDateLabel}</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>📌 เฉพาะวันนี้ · ไม่ซ้ำทุกวัน</Typography>
         </Box>
         <Box sx={{ display: 'flex', gap: 1 }}>
@@ -363,7 +363,7 @@ export default function PlannerHub() {
 
       {/* Task Dialog */}
       <Dialog open={dialogType === 'task'} onClose={() => setDialogType(null)} maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}>
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>✅ Add Task</DialogTitle>
         <DialogContent>
           <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>Pillar</Typography>
@@ -397,7 +397,7 @@ export default function PlannerHub() {
 
       {/* Workout Dialog */}
       <Dialog open={dialogType === 'workout'} onClose={() => setDialogType(null)} maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}>
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>🏋️ Add Workout</DialogTitle>
         <DialogContent>
           <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>Pillar</Typography>

@@ -63,8 +63,8 @@ function PillarSection({ pillar }: { pillar: typeof PILLARS[0] }) {
       {/* Pillar Header */}
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <Typography fontSize={18}>{pillar.emoji}</Typography>
-          <Typography variant="subtitle2" fontWeight={700}>{pillar.label}</Typography>
+          <Typography sx={{ fontSize: 18 }}>{pillar.emoji}</Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{pillar.label}</Typography>
           <Chip
             label={`${done}/${total}`}
             size="small"
@@ -177,7 +177,7 @@ export default function Today() {
           <Typography variant="caption" sx={{ color: 'text.secondary', fontWeight: 600, letterSpacing: 1 }}>
             {dateLabel.toUpperCase()}
           </Typography>
-          <Typography variant="h5" fontWeight={800} sx={{ mt: 0.25 }}>Today</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 800, mt: 0.25 }}>Today</Typography>
         </Box>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 0.5 }}>
           {streak > 0 && (
@@ -204,21 +204,21 @@ export default function Today() {
       }}>
         <Box sx={{ flex: 1, textAlign: 'center' }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>Total XP</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ color: 'primary.main', lineHeight: 1.2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: 'primary.main', lineHeight: 1.2 }}>
             {totalXP.toLocaleString()}
           </Typography>
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box sx={{ flex: 1, textAlign: 'center' }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>Today XP</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ color: todayQuestXP > 0 ? '#22c55e' : 'text.secondary', lineHeight: 1.2 }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: todayQuestXP > 0 ? '#22c55e' : 'text.secondary', lineHeight: 1.2 }}>
             +{todayQuestXP}
           </Typography>
         </Box>
         <Divider orientation="vertical" flexItem />
         <Box sx={{ flex: 1, textAlign: 'center' }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>Evidence</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ lineHeight: 1.2 }}>{totalEvidence}</Typography>
+          <Typography variant="h6" sx={{ fontWeight: 800, lineHeight: 1.2 }}>{totalEvidence}</Typography>
         </Box>
       </Box>
 
@@ -228,7 +228,7 @@ export default function Today() {
           onClick={() => navigate('/body')}
           sx={{ p: 1.5, mb: 3, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 2 }}
         >
-          <Typography fontSize={20}>💪</Typography>
+          <Typography sx={{ fontSize: 20 }}>💪</Typography>
           <Box sx={{ flex: 1 }}>
             <LinearProgress
               variant="determinate"

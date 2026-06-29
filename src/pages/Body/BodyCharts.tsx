@@ -32,11 +32,11 @@ export default function BodyCharts() {
       <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/body')} sx={{ color: 'text.secondary', mb: 2, ml: -1 }}>
         Back
       </Button>
-      <Typography variant="h5" fontWeight={800} sx={{ mb: 3 }}>Charts</Typography>
+      <Typography variant="h5" sx={{ fontWeight: 800, mb: 3 }}>Charts</Typography>
 
       {/* Calorie Chart */}
       <Card sx={{ p: 2.5, mb: 3 }}>
-        <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 0.5 }}>Calories / Day</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.5 }}>Calories / Day</Typography>
         <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 2 }}>
           7 วันล่าสุด · เป้า {settings.calorieTarget} kcal
         </Typography>
@@ -46,7 +46,7 @@ export default function BodyCharts() {
             <XAxis dataKey="date" tick={CHART_STYLE} axisLine={false} tickLine={false} />
             <YAxis tick={CHART_STYLE} axisLine={false} tickLine={false} />
             <Tooltip
-              contentStyle={{ bgcolor: '#111118', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8 }}
+              contentStyle={{ background: '#111118', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8 }}
               labelStyle={{ color: '#f1f5f9' }}
               itemStyle={{ color: '#f59e0b' }}
             />
@@ -68,7 +68,7 @@ export default function BodyCharts() {
 
       {/* Weight Chart */}
       <Card sx={{ p: 2.5 }}>
-        <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 0.5 }}>Weight / Day</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.5 }}>Weight / Day</Typography>
         <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 2 }}>
           14 วันล่าสุด · เส้นเฉลี่ย 7 วัน
         </Typography>

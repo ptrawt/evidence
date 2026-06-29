@@ -60,15 +60,15 @@ export default function PillarDetail() {
       }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
           <Box>
-            <Typography fontSize={36}>{pillar.emoji}</Typography>
-            <Typography variant="h4" fontWeight={800} sx={{ color: pillar.color, mt: 0.5 }}>
+            <Typography sx={{ fontSize: 36 }}>{pillar.emoji}</Typography>
+            <Typography variant="h4" sx={{ fontWeight: 800, color: pillar.color, mt: 0.5 }}>
               {pillar.label}
             </Typography>
             <Typography variant="body2" sx={{ color: 'text.secondary' }}>{pillar.goal}</Typography>
           </Box>
           <Box sx={{ textAlign: 'right' }}>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>LEVEL</Typography>
-            <Typography variant="h3" fontWeight={800} sx={{ color: pillar.color, lineHeight: 1 }}>
+            <Typography variant="h3" sx={{ fontWeight: 800, color: pillar.color, lineHeight: 1 }}>
               {level}
             </Typography>
           </Box>
@@ -87,17 +87,17 @@ export default function PillarDetail() {
         <Box sx={{ display: 'flex', gap: 3 }}>
           <Box>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>Total XP</Typography>
-            <Typography variant="h6" fontWeight={700} sx={{ color: pillar.color }}>{xp}</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 700, color: pillar.color }}>{xp}</Typography>
           </Box>
           <Box>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>Streak</Typography>
-            <Typography variant="h6" fontWeight={700}>
+            <Typography variant="h6" sx={{ fontWeight: 700 }}>
               {streak > 0 ? `${streak}d 🔥` : '—'}
             </Typography>
           </Box>
           <Box>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>Evidence</Typography>
-            <Typography variant="h6" fontWeight={700}>{totalCount}</Typography>
+            <Typography variant="h6" sx={{ fontWeight: 700 }}>{totalCount}</Typography>
           </Box>
         </Box>
       </Box>

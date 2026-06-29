@@ -92,7 +92,7 @@ export default function KnowledgeHub() {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 3 }}>
-        <Typography variant="h5" fontWeight={800}>🧠 Knowledge</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 800 }}>🧠 Knowledge</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>Learn · Practice · Grow</Typography>
       </Box>
 
@@ -100,19 +100,19 @@ export default function KnowledgeHub() {
       <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1.5, mb: 3 }}>
         <Card sx={{ p: 2, textAlign: 'center' }}>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>วันนี้</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ color: CAREER.color }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: CAREER.color }}>
             {formatMinutes(todayMinutes)}
           </Typography>
         </Card>
         <Card sx={{ p: 2, textAlign: 'center' }}>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>7 วัน</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ color: MIND.color }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: MIND.color }}>
             {formatMinutes(weekMinutes)}
           </Typography>
         </Card>
         <Card sx={{ p: 2, textAlign: 'center' }}>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block' }}>Topics</Typography>
-          <Typography variant="h6" fontWeight={800}>{weekTopics}</Typography>
+          <Typography variant="h6" sx={{ fontWeight: 800 }}>{weekTopics}</Typography>
         </Card>
       </Box>
 
@@ -153,10 +153,10 @@ export default function KnowledgeHub() {
                   )}
                   {!showDate && i > 0 && <Divider />}
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', px: 2, py: 1.25, gap: 1.5 }}>
-                    <Typography fontSize={20} sx={{ mt: 0.25 }}>{cfg.emoji}</Typography>
+                    <Typography sx={{ fontSize: 20, mt: 0.25 }}>{cfg.emoji}</Typography>
                     <Box sx={{ flex: 1, minWidth: 0 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
-                        <Typography variant="body2" fontWeight={700}>{e.topic}</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 700 }}>{e.topic}</Typography>
                         <Chip
                           label={e.pillar}
                           size="small"
@@ -194,7 +194,7 @@ export default function KnowledgeHub() {
       <Dialog
         open={open} onClose={() => setOpen(false)}
         maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}
       >
         <DialogTitle sx={{ fontWeight: 700 }}>📖 Log Learning Session</DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
@@ -244,7 +244,7 @@ export default function KnowledgeHub() {
                   },
                 }}
               >
-                <Typography fontSize={16}>{v.emoji}</Typography>
+                <Typography sx={{ fontSize: 16 }}>{v.emoji}</Typography>
                 <Typography variant="caption" sx={{ fontSize: '0.6rem', lineHeight: 1 }}>{v.label}</Typography>
               </ToggleButton>
             ))}

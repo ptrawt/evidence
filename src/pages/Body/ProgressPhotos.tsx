@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Box, Typography, Card, Button, IconButton, CircularProgress,
-  Dialog, DialogContent, Chip, TextField, Divider,
+  Dialog, Chip, TextField, Divider,
 } from '@mui/material'
 import {
   ArrowBack as ArrowBackIcon,
@@ -96,9 +96,9 @@ function CompareView({
 
   return (
     <Dialog open={open} onClose={onClose} fullScreen
-      PaperProps={{ sx: { bgcolor: '#000', backgroundImage: 'none' } }}>
+      slotProps={{ paper: { sx: { bgcolor: '#000', backgroundImage: 'none' } } }}>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', px: 2, py: 1.5, borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-        <Typography fontWeight={800}>🔄 Before / After</Typography>
+        <Typography sx={{ fontWeight: 800 }}>🔄 Before / After</Typography>
         <IconButton onClick={onClose} size="small" sx={{ color: 'text.secondary' }}>
           <CloseIcon />
         </IconButton>
@@ -180,7 +180,7 @@ function PhotoDetail({
   if (!photo) return null
   return (
     <Dialog open={!!photo} onClose={onClose} maxWidth="sm" fullWidth
-      PaperProps={{ sx: { bgcolor: '#0a0a0a', backgroundImage: 'none' } }}>
+      slotProps={{ paper: { sx: { bgcolor: '#0a0a0a', backgroundImage: 'none' } } }}>
       <Box sx={{ position: 'relative' }}>
         <Box component="img" src={photo.signedUrl} alt={photo.date}
           sx={{ width: '100%', aspectRatio: '3/4', objectFit: 'cover', display: 'block' }} />
@@ -191,7 +191,7 @@ function PhotoDetail({
       </Box>
       <Box sx={{ p: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <Box>
-          <Typography variant="subtitle2" fontWeight={700}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
             {new Date(photo.date + 'T12:00').toLocaleDateString('th-TH', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
           </Typography>
           {photo.note && <Typography variant="caption" sx={{ color: 'text.secondary' }}>{photo.note}</Typography>}
@@ -257,7 +257,7 @@ export default function ProgressPhotos() {
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={800}>📸 Progress Photos</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 800 }}>📸 Progress Photos</Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             {photos.length} รูป · ถ่ายทุก 2 สัปดาห์
           </Typography>
@@ -296,8 +296,8 @@ export default function ProgressPhotos() {
       {/* Empty */}
       {status === 'ready' && photos.length === 0 && (
         <Card sx={{ p: 4, textAlign: 'center' }}>
-          <Typography fontSize={40} sx={{ mb: 1 }}>📸</Typography>
-          <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 0.5 }}>ยังไม่มีรูป</Typography>
+          <Typography sx={{ fontSize: 40, mb: 1 }}>📸</Typography>
+          <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5 }}>ยังไม่มีรูป</Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
             ถ่ายรูปทุก 2 สัปดาห์เพื่อเห็น progress ของตัวเอง
           </Typography>
@@ -329,9 +329,9 @@ export default function ProgressPhotos() {
       {/* Note dialog before upload */}
       <Dialog open={noteOpen} onClose={() => { setNoteOpen(false); setPendingFile(null) }}
         maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}>
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}>
         <Box sx={{ p: 3 }}>
-          <Typography variant="h6" fontWeight={800} sx={{ mb: 0.5 }}>📸 Add Note</Typography>
+          <Typography variant="h6" sx={{ fontWeight: 800, mb: 0.5 }}>📸 Add Note</Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
             {pendingFile?.name} · วันนี้
           </Typography>

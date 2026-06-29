@@ -27,8 +27,8 @@ function PillarQuestList({ pillar }: { pillar: typeof PILLARS[0] }) {
   return (
     <Box sx={{ mb: 3 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-        <Typography fontSize={18}>{pillar.emoji}</Typography>
-        <Typography variant="subtitle2" fontWeight={700}>{pillar.label}</Typography>
+        <Typography sx={{ fontSize: 18 }}>{pillar.emoji}</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{pillar.label}</Typography>
         <Chip
           label={quests.length}
           size="small"
@@ -47,7 +47,7 @@ function PillarQuestList({ pillar }: { pillar: typeof PILLARS[0] }) {
               {i > 0 && <Divider />}
               <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 1.25 }}>
                 <Box sx={{ flex: 1 }}>
-                  <Typography variant="body2" fontWeight={500}>{q.name}</Typography>
+                  <Typography variant="body2" sx={{ fontWeight: 500 }}>{q.name}</Typography>
                 </Box>
                 <Chip
                   label={`+${q.xp} XP`}
@@ -118,7 +118,7 @@ export default function QuestManagement() {
 
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={800} sx={{ mb: 0.25 }}>🔄 Daily Habits</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.25 }}>🔄 Daily Habits</Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>
             ปรากฏใน Today ทุกวัน · เช็คแล้วได้ XP
           </Typography>
@@ -143,7 +143,7 @@ export default function QuestManagement() {
         onClose={handleClose}
         fullWidth
         maxWidth="xs"
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}
       >
         <DialogTitle sx={{ fontWeight: 700 }}>New Daily Habit</DialogTitle>
         <DialogContent>
@@ -174,7 +174,7 @@ export default function QuestManagement() {
           <Box sx={{ px: 1, mt: 0.75 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>Experience Points</Typography>
-              <Typography variant="subtitle1" fontWeight={800} sx={{ color: 'primary.main' }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 800, color: 'primary.main' }}>
                 +{xp} XP
               </Typography>
             </Box>

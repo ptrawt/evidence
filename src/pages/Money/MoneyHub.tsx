@@ -2,7 +2,7 @@ import { useState } from 'react'
 import {
   Box, Typography, Card, Button, Chip, Divider, IconButton,
   Dialog, DialogTitle, DialogContent, DialogActions,
-  TextField, ToggleButton, ToggleButtonGroup,
+  TextField, ToggleButton,
 } from '@mui/material'
 import { DeleteOutlined as DeleteIcon } from '@mui/icons-material'
 import { nanoid } from '@reduxjs/toolkit'
@@ -96,7 +96,7 @@ export default function MoneyHub() {
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ mb: 3 }}>
-        <Typography variant="h5" fontWeight={800}>💰 Money</Typography>
+        <Typography variant="h5" sx={{ fontWeight: 800 }}>💰 Money</Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>Track spending · Save · Resist impulse</Typography>
       </Box>
 
@@ -107,19 +107,19 @@ export default function MoneyHub() {
       <Box sx={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1.5, mt: 1, mb: 3 }}>
         <Card sx={{ p: 2 }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>ใช้ไปเดือนนี้</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ color: '#ef4444' }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: '#ef4444' }}>
             ฿{monthExpense.toLocaleString()}
           </Typography>
         </Card>
         <Card sx={{ p: 2 }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>เก็บออมเดือนนี้</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ color: '#22c55e' }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: '#22c55e' }}>
             ฿{monthSavings.toLocaleString()}
           </Typography>
         </Card>
         <Card sx={{ p: 2 }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>Impulse resisted</Typography>
-          <Typography variant="h6" fontWeight={800} sx={{ color: '#f59e0b' }}>
+          <Typography variant="h6" sx={{ fontWeight: 800, color: '#f59e0b' }}>
             {monthImpulseCount} ครั้ง
           </Typography>
           {monthImpulseSaved > 0 && (
@@ -130,7 +130,7 @@ export default function MoneyHub() {
         </Card>
         <Card sx={{ p: 2 }}>
           <Typography variant="caption" sx={{ color: 'text.secondary' }}>วันนี้ใช้ไป</Typography>
-          <Typography variant="h6" fontWeight={800}>
+          <Typography variant="h6" sx={{ fontWeight: 800 }}>
             ฿{todayExpenseTotal.toLocaleString()}
           </Typography>
         </Card>
@@ -176,16 +176,16 @@ export default function MoneyHub() {
                 <Box key={e.id}>
                   {i > 0 && <Divider />}
                   <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 1.25, gap: 1 }}>
-                    <Typography fontSize={18}>{cfg.emoji}</Typography>
+                    <Typography sx={{ fontSize: 18 }}>{cfg.emoji}</Typography>
                     <Box sx={{ flex: 1, minWidth: 0 }}>
-                      <Typography variant="body2" fontWeight={600} noWrap>
+                      <Typography variant="body2" sx={{ fontWeight: 600 }} noWrap>
                         {e.category || cfg.label}
                       </Typography>
                       {e.note && (
                         <Typography variant="caption" sx={{ color: 'text.secondary' }} noWrap>{e.note}</Typography>
                       )}
                     </Box>
-                    <Typography variant="body2" fontWeight={700} sx={{ color: cfg.color, flexShrink: 0 }}>
+                    <Typography variant="body2" sx={{ fontWeight: 700, color: cfg.color, flexShrink: 0 }}>
                       {e.type === 'expense' ? '-' : '+'}฿{e.amount.toLocaleString()}
                     </Typography>
                     <IconButton
@@ -225,12 +225,12 @@ export default function MoneyHub() {
                     )}
                     {!showDate && i > 0 && <Divider />}
                     <Box sx={{ display: 'flex', alignItems: 'center', px: 2, py: 1, gap: 1 }}>
-                      <Typography fontSize={16}>{cfg.emoji}</Typography>
+                      <Typography sx={{ fontSize: 16 }}>{cfg.emoji}</Typography>
                       <Box sx={{ flex: 1, minWidth: 0 }}>
                         <Typography variant="body2" noWrap>{e.category || cfg.label}</Typography>
                         {e.note && <Typography variant="caption" sx={{ color: 'text.secondary' }} noWrap>{e.note}</Typography>}
                       </Box>
-                      <Typography variant="body2" fontWeight={700} sx={{ color: cfg.color, flexShrink: 0 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 700, color: cfg.color, flexShrink: 0 }}>
                         {e.type === 'expense' ? '-' : '+'}฿{e.amount.toLocaleString()}
                       </Typography>
                     </Box>
@@ -246,7 +246,7 @@ export default function MoneyHub() {
         open={open}
         onClose={() => setOpen(false)}
         maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}
       >
         <DialogTitle sx={{ fontWeight: 700 }}>
           {TYPE_CONFIG[openType].emoji} {TYPE_CONFIG[openType].label}

@@ -40,7 +40,7 @@ export default function EvidenceCard({ entry, index, showDelete = false }: Props
               sx={{ bgcolor: 'primary.main', color: '#000', fontWeight: 800, height: 20, fontSize: '0.7rem' }}
             />
           </Box>
-          <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 0.25 }}>{entry.category}</Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.25 }}>{entry.category}</Typography>
           {entry.note && (
             <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '0.8rem' }}>{entry.note}</Typography>
           )}

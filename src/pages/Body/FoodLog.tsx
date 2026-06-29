@@ -53,13 +53,13 @@ export default function FoodLog() {
   return (
     <Box sx={{ p: 3, maxWidth: 480, mx: 'auto' }}>
       <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/body')} sx={{ color: 'text.secondary', mb: 2, ml: -1 }}>Back</Button>
-      <Typography variant="h5" fontWeight={800} sx={{ mb: 0.5 }}>Food Log</Typography>
+      <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.5 }}>Food Log</Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
         {new Date().toLocaleDateString('th-TH', { weekday: 'long', day: 'numeric', month: 'long' })}
       </Typography>
 
       <Card sx={{ p: 2.5, mb: 3 }}>
-        <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>เพิ่มอาหาร</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>เพิ่มอาหาร</Typography>
         <ToggleButtonGroup
           value={meal} exclusive onChange={(_, v) => { if (v) setMeal(v) }}
           size="small" sx={{ mb: 2, display: 'flex' }}
@@ -87,7 +87,7 @@ export default function FoodLog() {
           <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>วันนี้</Typography>
           {mealGroups.map(({ meal: m, entries }) => (
             <Box key={m} sx={{ mt: 1.5, mb: 2 }}>
-              <Typography variant="caption" fontWeight={700} sx={{ color: 'text.secondary' }}>
+              <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary' }}>
                 {MEAL_EMOJI[m]} {MEAL_LABELS[m]}
               </Typography>
               <Card sx={{ mt: 0.75 }}>
@@ -96,7 +96,7 @@ export default function FoodLog() {
                     {i > 0 && <Divider />}
                     <Box sx={{ px: 2, py: 1.25, display: 'flex', alignItems: 'center' }}>
                       <Box sx={{ flex: 1 }}>
-                        <Typography variant="body2" fontWeight={600}>{e.name}</Typography>
+                        <Typography variant="body2" sx={{ fontWeight: 600 }}>{e.name}</Typography>
                         <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                           {e.kcal} kcal{e.protein > 0 ? ` · ${e.protein}g protein` : ''}{e.note ? ` · ${e.note}` : ''}
                         </Typography>

@@ -41,13 +41,13 @@ export default function WeightLog() {
   return (
     <Box sx={{ p: 3, maxWidth: 480, mx: 'auto' }}>
       <Button startIcon={<ArrowBackIcon />} onClick={() => navigate('/body')} sx={{ color: 'text.secondary', mb: 2, ml: -1 }}>Back</Button>
-      <Typography variant="h5" fontWeight={800} sx={{ mb: 0.5 }}>Weight Log</Typography>
+      <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.5 }}>Weight Log</Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>
         {new Date().toLocaleDateString('th-TH', { weekday: 'long', day: 'numeric', month: 'long' })}
       </Typography>
 
       <Card sx={{ p: 2.5, mb: 3 }}>
-        <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>
           {todayWeight ? 'อัปเดตน้ำหนักวันนี้' : 'ชั่งน้ำหนักวันนี้'}
         </Typography>
         <Box sx={{ display: 'flex', gap: 1.5 }}>
@@ -70,7 +70,7 @@ export default function WeightLog() {
       </Card>
 
       <Card sx={{ p: 2.5, mb: 3 }}>
-        <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>Stats</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>Stats</Typography>
         <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
           {[
             { label: '7-day Avg', value: avgWeight ? `${avgWeight.toFixed(1)} kg` : '—' },
@@ -80,7 +80,7 @@ export default function WeightLog() {
           ].map(({ label, value }) => (
             <Box key={label} sx={{ width: '50%', mb: 1.5 }}>
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>{label}</Typography>
-              <Typography variant="subtitle1" fontWeight={700}>{value}</Typography>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{value}</Typography>
             </Box>
           ))}
         </Box>
@@ -95,7 +95,7 @@ export default function WeightLog() {
                 {i > 0 && <Divider />}
                 <Box sx={{ px: 2, py: 1.25, display: 'flex', alignItems: 'center' }}>
                   <Box sx={{ flex: 1 }}>
-                    <Typography variant="body2" fontWeight={700}>{e.weight} kg</Typography>
+                    <Typography variant="body2" sx={{ fontWeight: 700 }}>{e.weight} kg</Typography>
                     <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                       {new Date(e.date).toLocaleDateString('th-TH', { weekday: 'short', day: 'numeric', month: 'short' })}
                     </Typography>

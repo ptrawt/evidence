@@ -35,7 +35,7 @@ export default function PillarPicker({ value, onChange, pillars = PILLARS, colum
             },
           }}
         >
-          <Typography fontSize={16}>{p.emoji}</Typography>
+          <Typography sx={{ fontSize: 16 }}>{p.emoji}</Typography>
           {p.label}
         </ToggleButton>
       ))}

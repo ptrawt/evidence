@@ -47,7 +47,7 @@ export default function BodyHub() {
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
         <Box>
-          <Typography variant="h5" fontWeight={800}>💪 Body</Typography>
+          <Typography variant="h5" sx={{ fontWeight: 800 }}>💪 Body</Typography>
           <Typography variant="body2" sx={{ color: 'text.secondary' }}>Become healthy</Typography>
         </Box>
         <FormControlLabel
@@ -59,7 +59,7 @@ export default function BodyHub() {
               size="small"
             />
           }
-          label={<Typography variant="caption" fontWeight={700} sx={{ color: settings.strictMode ? 'warning.main' : 'text.secondary' }}>STRICT</Typography>}
+          label={<Typography variant="caption" sx={{ fontWeight: 700, color: settings.strictMode ? 'warning.main' : 'text.secondary' }}>STRICT</Typography>}
           labelPlacement="start"
         />
       </Box>
@@ -69,7 +69,7 @@ export default function BodyHub() {
       {/* Calorie Budget */}
       <Card sx={{ p: 2.5, mb: 2 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1.5 }}>
-          <Typography variant="subtitle2" fontWeight={700}>Daily Calorie Budget</Typography>
+          <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>Daily Calorie Budget</Typography>
           <Chip
             label={STATUS_LABEL[calorieStatus]}
             size="small"
@@ -88,17 +88,17 @@ export default function BodyHub() {
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Box>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>Consumed</Typography>
-            <Typography variant="subtitle1" fontWeight={800} sx={{ color: statusColor }}>{todayKcal}</Typography>
+            <Typography variant="subtitle1" sx={{ fontWeight: 800, color: statusColor }}>{todayKcal}</Typography>
           </Box>
           <Box sx={{ textAlign: 'center' }}>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>Target</Typography>
-            <Typography variant="subtitle1" fontWeight={700}>{settings.calorieTarget}</Typography>
+            <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{settings.calorieTarget}</Typography>
           </Box>
           <Box sx={{ textAlign: 'right' }}>
             <Typography variant="caption" sx={{ color: 'text.secondary' }}>
               {calorieStatus === 'over' ? 'Over' : 'Remaining'}
             </Typography>
-            <Typography variant="subtitle1" fontWeight={800} sx={{ color: statusColor }}>
+            <Typography variant="subtitle1" sx={{ fontWeight: 800, color: statusColor }}>
               {remainingLabel}
             </Typography>
           </Box>
@@ -112,7 +112,7 @@ export default function BodyHub() {
 
       {/* Weight Today */}
       <Card sx={{ p: 2.5, mb: 2 }}>
-        <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 1.5 }}>Weight Tracking</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 1.5 }}>Weight Tracking</Typography>
 
         {/* Goal progress bar */}
         {settings.weightGoal && startWeight && latestWeight && (() => {
@@ -131,7 +131,7 @@ export default function BodyHub() {
                 <Typography variant="caption" sx={{ color: 'text.secondary' }}>
                   🎯 Goal: {start} → {goal} kg
                 </Typography>
-                <Typography variant="caption" fontWeight={700} sx={{ color: goalReached ? '#22c55e' : 'primary.main' }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, color: goalReached ? '#22c55e' : 'primary.main' }}>
                   {goalReached ? '🏆 Reached!' : `เหลือ ${remaining} kg`}
                 </Typography>
               </Box>
@@ -161,7 +161,7 @@ export default function BodyHub() {
           ].map(({ label, value }) => (
             <Box key={label} sx={{ width: '33.33%', mb: 1.5, pr: 1 }}>
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>{label}</Typography>
-              <Typography variant="body2" fontWeight={700}>{value}</Typography>
+              <Typography variant="body2" sx={{ fontWeight: 700 }}>{value}</Typography>
             </Box>
           ))}
         </Box>
@@ -188,7 +188,7 @@ export default function BodyHub() {
       {mealGroups.map(({ meal, entries }) => (
         entries.length > 0 && (
           <Card key={meal} sx={{ p: 2, mb: 1.5 }}>
-            <Typography variant="caption" fontWeight={700} sx={{ color: 'text.secondary', display: 'block', mb: 1 }}>
+            <Typography variant="caption" sx={{ fontWeight: 700, color: 'text.secondary', display: 'block', mb: 1 }}>
               {MEAL_EMOJI[meal]} {MEAL_LABELS[meal]}
             </Typography>
             {entries.map(e => (

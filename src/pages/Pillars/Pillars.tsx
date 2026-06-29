@@ -5,7 +5,7 @@ import { PILLARS } from '../../types'
 export default function Pillars() {
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" fontWeight={800} sx={{ mb: 0.5 }}>
+      <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.5 }}>
         Four Pillars
       </Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>

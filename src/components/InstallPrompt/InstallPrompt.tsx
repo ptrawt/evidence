@@ -33,16 +33,18 @@ export default function InstallPrompt() {
       open={open}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       sx={{ bottom: { xs: 80, sm: 80 }, maxWidth: 400, width: '92vw' }}
-      ContentProps={{
-        sx: {
-          bgcolor: '#1a1a1a', border: '1px solid rgba(245,158,11,0.3)',
-          borderRadius: 3, px: 2.5, py: 1.5,
-          flexDirection: 'column', alignItems: 'flex-start', gap: 1.5,
+      slotProps={{
+        content: {
+          sx: {
+            bgcolor: '#1a1a1a', border: '1px solid rgba(245,158,11,0.3)',
+            borderRadius: 3, px: 2.5, py: 1.5,
+            flexDirection: 'column', alignItems: 'flex-start', gap: 1.5,
+          },
         },
       }}
       message={
         <Box>
-          <Typography variant="body2" fontWeight={800} sx={{ color: '#fff' }}>
+          <Typography variant="body2" sx={{ fontWeight: 800, color: '#fff' }}>
             📲 ติดตั้ง Evidence
           </Typography>
           <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.6)' }}>

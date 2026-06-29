@@ -41,8 +41,7 @@ export default function Login() {
         <Box sx={{ textAlign: 'center', mb: 3 }}>
           <Typography
             variant="h4"
-            fontWeight={800}
-            sx={{ color: 'primary.main', letterSpacing: '-0.5px', mb: 0.5 }}
+            sx={{ fontWeight: 800, color: 'primary.main', letterSpacing: '-0.5px', mb: 0.5 }}
           >
             EVIDENCE
           </Typography>

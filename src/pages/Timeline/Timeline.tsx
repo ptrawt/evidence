@@ -22,7 +22,7 @@ export default function Timeline() {
     return (
       <Box sx={{ p: 3, textAlign: 'center', pt: 8 }}>
         <Typography variant="h4" sx={{ mb: 1 }}>📜</Typography>
-        <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 0.5 }}>
+        <Typography variant="subtitle1" sx={{ fontWeight: 700, mb: 0.5 }}>
           No evidence yet
         </Typography>
         <Typography variant="body2" sx={{ color: 'text.secondary' }}>
@@ -39,7 +39,7 @@ export default function Timeline() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h5" fontWeight={800} sx={{ mb: 0.5 }}>
+      <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.5 }}>
         Timeline
       </Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>

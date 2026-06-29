@@ -91,7 +91,7 @@ export default function Settings() {
 
   return (
     <Box sx={{ p: 3, maxWidth: 480, mx: 'auto' }}>
-      <Typography variant="h5" fontWeight={800} sx={{ mb: 0.5 }}>Settings</Typography>
+      <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.5 }}>Settings</Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>ตั้งค่าเป้าหมายส่วนตัว</Typography>
 
       <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>💪 Body Targets</Typography>
@@ -129,7 +129,7 @@ export default function Settings() {
           control={<Switch checked={settings.strictMode} onChange={handleToggleStrict} color="warning" />}
           label={
             <Box>
-              <Typography variant="subtitle2" fontWeight={700}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                 Strict Mode {settings.strictMode ? 'ON' : 'OFF'}
               </Typography>
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>
@@ -153,7 +153,7 @@ export default function Settings() {
               }
               label={
                 <Box>
-                  <Typography variant="subtitle2" fontWeight={700}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
                     Push Notifications {pushEnabled ? 'ON' : 'OFF'}
                   </Typography>
                   <Typography variant="caption" sx={{ color: 'text.secondary' }}>
@@ -222,7 +222,7 @@ export default function Settings() {
 
       <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>About</Typography>
       <Card sx={{ p: 2.5, mt: 1 }}>
-        <Typography variant="subtitle2" fontWeight={700} sx={{ mb: 0.5 }}>Evidence</Typography>
+        <Typography variant="subtitle2" sx={{ fontWeight: 700, mb: 0.5 }}>Evidence</Typography>
         <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5 }}>
           Personal Growth OS · Phase 2
         </Typography>

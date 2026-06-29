@@ -50,10 +50,10 @@ function QuickPickCard({
   return (
     <Card sx={{ p: 1.5 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-        <Typography fontSize={18}>{selected ? selected.emoji : emoji}</Typography>
+        <Typography sx={{ fontSize: 18 }}>{selected ? selected.emoji : emoji}</Typography>
         <Box sx={{ flex: 1 }}>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', lineHeight: 1 }}>{label}</Typography>
-          <Typography variant="caption" fontWeight={700} sx={{ color: value ? color : 'text.secondary', fontSize: '0.7rem' }}>
+          <Typography variant="caption" sx={{ fontWeight: 700, color: value ? color : 'text.secondary', fontSize: '0.7rem' }}>
             {selected ? selected.label : '—'}
           </Typography>
         </Box>
@@ -179,9 +179,9 @@ export default function DailyVitals() {
           {waterDone && (
             <Chip label="✓" size="small" sx={{ position: 'absolute', top: 8, right: 8, height: 18, fontSize: '0.6rem', bgcolor: '#3b82f620', color: '#3b82f6' }} />
           )}
-          <Typography fontSize={22} sx={{ mb: 0.5 }}>💧</Typography>
+          <Typography sx={{ fontSize: 22, mb: 0.5 }}>💧</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5 }}>Water</Typography>
-          <Typography variant="subtitle2" fontWeight={800} sx={{ color: waterDone ? '#3b82f6' : 'text.primary', lineHeight: 1 }}>
+          <Typography variant="subtitle2" sx={{ fontWeight: 800, color: waterDone ? '#3b82f6' : 'text.primary', lineHeight: 1 }}>
             {Math.round(record.waterMl / GLASS_ML)} แก้ว
           </Typography>
           <LinearProgress
@@ -203,11 +203,11 @@ export default function DailyVitals() {
           onClick={() => { setSleepInput(record.sleepHours > 0 ? String(record.sleepHours) : ''); setSleepDialog(true) }}
           sx={{ p: 2, cursor: 'pointer', '&:hover': { borderColor: '#a855f722' } }}
         >
-          <Typography fontSize={22} sx={{ mb: 0.5 }}>🌙</Typography>
+          <Typography sx={{ fontSize: 22, mb: 0.5 }}>🌙</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5 }}>Sleep</Typography>
           <Typography
-            variant="subtitle2" fontWeight={800}
-            sx={{ color: sleepDone ? (sleepOk ? '#22c55e' : '#f59e0b') : 'text.secondary', lineHeight: 1 }}
+            variant="subtitle2"
+            sx={{ fontWeight: 800, color: sleepDone ? (sleepOk ? '#22c55e' : '#f59e0b') : 'text.secondary', lineHeight: 1 }}
           >
             {sleepDone ? `${record.sleepHours}h` : '—'}
           </Typography>
@@ -221,11 +221,11 @@ export default function DailyVitals() {
           onClick={() => { setIfStart(record.ifStart || '12:00'); setIfEnd(record.ifEnd || '20:00'); setIfDialog(true) }}
           sx={{ p: 2, cursor: 'pointer', '&:hover': { borderColor: '#f59e0b22' } }}
         >
-          <Typography fontSize={22} sx={{ mb: 0.5 }}>⏰</Typography>
+          <Typography sx={{ fontSize: 22, mb: 0.5 }}>⏰</Typography>
           <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.5 }}>IF</Typography>
           <Typography
-            variant="subtitle2" fontWeight={800}
-            sx={{ color: record.ifDone ? '#22c55e' : 'text.secondary', lineHeight: 1 }}
+            variant="subtitle2"
+            sx={{ fontWeight: 800, color: record.ifDone ? '#22c55e' : 'text.secondary', lineHeight: 1 }}
           >
             {record.ifDone ? 'Done ✓' : '—'}
           </Typography>
@@ -243,7 +243,7 @@ export default function DailyVitals() {
 
       {/* Water Dialog */}
       <Dialog open={waterDialog} onClose={() => { setWaterDialog(false); setCustomGlasses('') }} maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}>
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>💧 Log Water</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
@@ -284,7 +284,7 @@ export default function DailyVitals() {
 
       {/* Sleep Dialog */}
       <Dialog open={sleepDialog} onClose={() => { setSleepDialog(false); setSleepError(false) }} maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}>
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>🌙 Log Sleep</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
@@ -325,7 +325,7 @@ export default function DailyVitals() {
 
       {/* IF Dialog */}
       <Dialog open={ifDialog} onClose={() => setIfDialog(false)} maxWidth="xs" fullWidth
-        PaperProps={{ sx: { bgcolor: 'background.paper', backgroundImage: 'none' } }}>
+        slotProps={{ paper: { sx: { bgcolor: 'background.paper', backgroundImage: 'none' } } }}>
         <DialogTitle sx={{ fontWeight: 700 }}>⏰ IF Window</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ color: 'text.secondary', mb: 2 }}>
@@ -370,7 +370,7 @@ export default function DailyVitals() {
             control={
               <Switch checked={record.ifDone} onChange={e => { setIfDialog(false); saveIF(e.target.checked) }} color="success" />
             }
-            label={<Typography variant="body2" fontWeight={600}>Mark as Done today</Typography>}
+            label={<Typography variant="body2" sx={{ fontWeight: 600 }}>Mark as Done today</Typography>}
             sx={{ mt: 2 }}
           />
         </DialogContent>
