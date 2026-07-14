@@ -27,7 +27,11 @@ export default function Settings() {
   const [calorieTarget, setCalorieTarget] = useState(String(settings.calorieTarget))
   const [proteinTarget, setProteinTarget] = useState(String(settings.proteinTarget))
   const [weightGoal, setWeightGoal] = useState(settings.weightGoal ? String(settings.weightGoal) : '')
+  const [defaultRepMin, setDefaultRepMin] = useState(String(settings.defaultRepMin))
+  const [defaultRepMax, setDefaultRepMax] = useState(String(settings.defaultRepMax))
+  const [defaultTargetRpe, setDefaultTargetRpe] = useState(String(settings.defaultTargetRpe))
   const [saved, setSaved] = useState(false)
+  const [overloadSaved, setOverloadSaved] = useState(false)
 
   // Push notifications
   const pushSupported = isPushSupported()
@@ -53,6 +57,18 @@ export default function Settings() {
     dispatch(updateSettings(next))
     if (user) dispatch(saveBodySettings({ userId: user.id, settings: next }))
     setSaved(true)
+  }
+
+  const handleSaveOverloadDefaults = () => {
+    const repMin = parseInt(defaultRepMin, 10)
+    const repMax = parseInt(defaultRepMax, 10)
+    const targetRpe = parseInt(defaultTargetRpe, 10)
+    if (isNaN(repMin) || isNaN(repMax) || isNaN(targetRpe) || repMin <= 0 || repMax < repMin) return
+
+    const next = { ...settings, defaultRepMin: repMin, defaultRepMax: repMax, defaultTargetRpe: targetRpe }
+    dispatch(updateSettings(next))
+    if (user) dispatch(saveBodySettings({ userId: user.id, settings: next }))
+    setOverloadSaved(true)
   }
 
   const handleToggleStrict = () => {
@@ -94,57 +110,13 @@ export default function Settings() {
       <Typography variant="h5" sx={{ fontWeight: 800, mb: 0.5 }}>Settings</Typography>
       <Typography variant="body2" sx={{ color: 'text.secondary', mb: 3 }}>ตั้งค่าเป้าหมายส่วนตัว</Typography>
 
-      <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>💪 Body Targets</Typography>
-      <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
-        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
-          <TextField
-            label="Calorie Target (kcal/day)" value={calorieTarget}
-            onChange={e => setCalorieTarget(e.target.value)}
-            type="number" size="small" fullWidth
-            slotProps={{ htmlInput: { min: 1 } }}
-          />
-          <TextField
-            label="Protein Target (g/day)" value={proteinTarget}
-            onChange={e => setProteinTarget(e.target.value)}
-            type="number" size="small" fullWidth
-            slotProps={{ htmlInput: { min: 1 } }}
-          />
-        </Box>
-        <TextField
-          label="Weight Goal (kg)" value={weightGoal}
-          onChange={e => setWeightGoal(e.target.value)}
-          type="number" size="small" fullWidth sx={{ mb: 2 }}
-          placeholder="e.g. 80"
-          slotProps={{ htmlInput: { min: 1, step: '0.5' } }}
-        />
-        <Button fullWidth variant="contained" onClick={handleSave}
-          sx={{ bgcolor: 'primary.main', color: '#000', fontWeight: 700 }}>
-          Save Targets
-        </Button>
-      </Card>
-
-      <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>⚡ Strict Mode</Typography>
-      <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
-        <FormControlLabel
-          control={<Switch checked={settings.strictMode} onChange={handleToggleStrict} color="warning" />}
-          label={
-            <Box>
-              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
-                Strict Mode {settings.strictMode ? 'ON' : 'OFF'}
-              </Typography>
-              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                แจ้งเตือนเมื่อยังไม่ชั่งน้ำหนัก, ยังไม่ log อาหาร, kcal เกินเป้า, streak หลุด
-              </Typography>
-            </Box>
-          }
-          sx={{ alignItems: 'flex-start', mx: 0 }}
-        />
-      </Card>
+      {/* ── Daily — the things that drive daily usage ── */}
+      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'primary.main', mb: 1.5 }}>🔥 Daily</Typography>
 
       {pushSupported && (
         <>
           <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>🔔 Daily Reminders</Typography>
-          <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
+          <Card sx={{ p: 2.5, mt: 1, mb: 2 }}>
             <FormControlLabel
               control={
                 pushLoading
@@ -189,6 +161,90 @@ export default function Settings() {
         </>
       )}
 
+      <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>⚡ Strict Mode</Typography>
+      <Card sx={{ p: 2.5, mt: 1, mb: 2 }}>
+        <FormControlLabel
+          control={<Switch checked={settings.strictMode} onChange={handleToggleStrict} color="warning" />}
+          label={
+            <Box>
+              <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>
+                Strict Mode {settings.strictMode ? 'ON' : 'OFF'}
+              </Typography>
+              <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+                แจ้งเตือนเมื่อยังไม่ชั่งน้ำหนัก, ยังไม่ log อาหาร, kcal เกินเป้า, streak หลุด
+              </Typography>
+            </Box>
+          }
+          sx={{ alignItems: 'flex-start', mx: 0 }}
+        />
+      </Card>
+
+      <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>💪 Body Targets</Typography>
+      <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
+        <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+          <TextField
+            label="Calorie Target (kcal/day)" value={calorieTarget}
+            onChange={e => setCalorieTarget(e.target.value)}
+            type="number" size="small" fullWidth
+            slotProps={{ htmlInput: { min: 1 } }}
+          />
+          <TextField
+            label="Protein Target (g/day)" value={proteinTarget}
+            onChange={e => setProteinTarget(e.target.value)}
+            type="number" size="small" fullWidth
+            slotProps={{ htmlInput: { min: 1 } }}
+          />
+        </Box>
+        <TextField
+          label="Weight Goal (kg)" value={weightGoal}
+          onChange={e => setWeightGoal(e.target.value)}
+          type="number" size="small" fullWidth sx={{ mb: 2 }}
+          placeholder="e.g. 80"
+          slotProps={{ htmlInput: { min: 1, step: '0.5' } }}
+        />
+        <Button fullWidth variant="contained" onClick={handleSave}
+          sx={{ bgcolor: 'primary.main', color: '#000', fontWeight: 700 }}>
+          Save Targets
+        </Button>
+      </Card>
+
+      {/* ── Workout — used less often than daily targets, but still active tuning ── */}
+      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'primary.main', mb: 1.5 }}>🏋️ Workout</Typography>
+
+      <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>Progressive Overload Defaults</Typography>
+      <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
+        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 2 }}>
+          rep range และ target RPE เริ่มต้นสำหรับท่าที่ยังไม่เคยตั้งค่าเอง (แก้ต่อท่าได้ในหน้า Workout Log)
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1.5, mb: 2 }}>
+          <TextField
+            label="Rep min" value={defaultRepMin}
+            onChange={e => setDefaultRepMin(e.target.value)}
+            type="number" size="small" fullWidth
+            slotProps={{ htmlInput: { min: 1 } }}
+          />
+          <TextField
+            label="Rep max" value={defaultRepMax}
+            onChange={e => setDefaultRepMax(e.target.value)}
+            type="number" size="small" fullWidth
+            slotProps={{ htmlInput: { min: 1 } }}
+          />
+          <TextField
+            label="Target RPE" value={defaultTargetRpe}
+            onChange={e => setDefaultTargetRpe(e.target.value)}
+            type="number" size="small" fullWidth
+            slotProps={{ htmlInput: { min: 1, max: 10 } }}
+          />
+        </Box>
+        <Button fullWidth variant="contained" onClick={handleSaveOverloadDefaults}
+          sx={{ bgcolor: 'primary.main', color: '#000', fontWeight: 700 }}>
+          Save Defaults
+        </Button>
+      </Card>
+
+      {/* ── Data — occasional utility, not touched day-to-day ── */}
+      <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'primary.main', mb: 1.5 }}>🗂️ Data</Typography>
+
       <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>📦 Export Data</Typography>
       <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
         <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 2 }}>
@@ -212,6 +268,7 @@ export default function Settings() {
 
       <Divider sx={{ mb: 3 }} />
 
+      {/* ── Account & meta — least frequently touched ── */}
       <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>Account</Typography>
       <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
         <Typography variant="body2" sx={{ color: 'text.secondary', mb: 1.5 }}>{user?.email}</Typography>
@@ -234,6 +291,11 @@ export default function Settings() {
       <Snackbar open={saved} autoHideDuration={2000} onClose={() => setSaved(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert severity="success" variant="filled" sx={{ fontWeight: 700 }}>Settings saved</Alert>
+      </Snackbar>
+
+      <Snackbar open={overloadSaved} autoHideDuration={2000} onClose={() => setOverloadSaved(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert severity="success" variant="filled" sx={{ fontWeight: 700 }}>Progressive overload defaults saved</Alert>
       </Snackbar>
 
       <Snackbar open={timeSaved} autoHideDuration={2000} onClose={() => setTimeSaved(false)}

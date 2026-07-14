@@ -1,10 +1,51 @@
 import { createSelector } from '@reduxjs/toolkit'
 import type { RootState } from './index'
 import { todayISO } from '../lib/constants'
+import { todayWeekDay } from '../lib/db/workoutSplit'
+import { EXERCISE_LIBRARY } from '../lib/exerciseLibrary'
+import { aggregateWorkoutStats } from '../lib/workoutStats'
 
 const selectFoodEntries = (state: RootState) => state.food.entries
 const selectWeightEntries = (state: RootState) => state.weight.entries
 export const selectBodySettings = (state: RootState) => state.bodySettings
+
+export const selectWorkoutSessions = (state: RootState) => state.workout.sessions
+export const selectActiveWorkout = (state: RootState) => state.workout.active
+export const selectWorkoutSplit = (state: RootState) => state.workoutSplit
+
+export const selectTodayWorkoutSessions = createSelector(
+  selectWorkoutSessions,
+  sessions => sessions.filter(s => s.date === todayISO()),
+)
+
+export const selectTodayWorkoutStats = createSelector(
+  selectTodayWorkoutSessions,
+  aggregateWorkoutStats,
+)
+
+export const selectTodaySplitExercises = createSelector(
+  selectWorkoutSplit,
+  split => split[todayWeekDay()],
+)
+
+const selectCustomExercises = (state: RootState) => state.customExercises.items
+export const selectExerciseTargets = (state: RootState) => state.exerciseTargets
+export const selectExerciseInfo = (state: RootState) => state.exerciseInfo
+
+export const selectExerciseOptions = createSelector(
+  selectCustomExercises,
+  custom => Array.from(new Set([...EXERCISE_LIBRARY, ...custom.map(c => c.name)])),
+)
+
+export const selectWorkoutWeekNumber = createSelector(
+  selectWorkoutSessions,
+  sessions => {
+    if (sessions.length === 0) return 1
+    const firstDate = sessions.reduce((min, s) => s.date < min ? s.date : min, sessions[0].date)
+    const diffDays = Math.floor((new Date(todayISO()).getTime() - new Date(firstDate).getTime()) / 86400000)
+    return Math.floor(diffDays / 7) + 1
+  },
+)
 
 export const selectTodayFood = createSelector(
   selectFoodEntries,

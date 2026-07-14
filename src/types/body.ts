@@ -37,6 +37,9 @@ export interface BodySettings {
   proteinTarget: number
   strictMode: boolean
   weightGoal?: number
+  defaultRepMin: number
+  defaultRepMax: number
+  defaultTargetRpe: number
 }
 
 export const DEFAULT_BODY_SETTINGS: BodySettings = {
@@ -44,4 +47,7 @@ export const DEFAULT_BODY_SETTINGS: BodySettings = {
   proteinTarget: 150,
   strictMode: false,
   weightGoal: undefined,
+  defaultRepMin: 8,
+  defaultRepMax: 12,
+  defaultTargetRpe: 8,
 }

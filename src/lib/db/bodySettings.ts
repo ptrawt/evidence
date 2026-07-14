@@ -13,6 +13,9 @@ export async function fetchBodySettings(userId: string): Promise<BodySettings | 
     proteinTarget: data.protein_target,
     strictMode: data.strict_mode,
     weightGoal: data.weight_goal ?? undefined,
+    defaultRepMin: data.default_rep_min ?? 8,
+    defaultRepMax: data.default_rep_max ?? 12,
+    defaultTargetRpe: data.default_target_rpe ?? 8,
   }
 }
 
@@ -23,6 +26,9 @@ export async function upsertBodySettings(userId: string, settings: BodySettings)
     protein_target: settings.proteinTarget,
     strict_mode: settings.strictMode,
     weight_goal: settings.weightGoal ?? null,
+    default_rep_min: settings.defaultRepMin,
+    default_rep_max: settings.defaultRepMax,
+    default_target_rpe: settings.defaultTargetRpe,
   }, { onConflict: 'user_id' })
   if (error) throw error
 }

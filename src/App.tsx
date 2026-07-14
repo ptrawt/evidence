@@ -14,6 +14,9 @@ import BodyHub from './pages/Body/BodyHub'
 import FoodLog from './pages/Body/FoodLog'
 import WeightLog from './pages/Body/WeightLog'
 import BodyCharts from './pages/Body/BodyCharts'
+import WorkoutLog from './pages/Body/WorkoutLog'
+import WorkoutSplit from './pages/Body/WorkoutSplit'
+import ExerciseLibrary from './pages/Body/ExerciseLibrary'
 import Settings from './pages/Settings/Settings'
 import Login from './pages/Auth/Login'
 import QuestManagement from './pages/Quests/QuestManagement'
@@ -47,6 +50,9 @@ function AppRoutes() {
         <Route path="/body" element={<BodyHub />} />
         <Route path="/body/food" element={<FoodLog />} />
         <Route path="/body/weight" element={<WeightLog />} />
+        <Route path="/body/workout" element={<WorkoutLog />} />
+        <Route path="/body/workout/split" element={<WorkoutSplit />} />
+        <Route path="/body/exercises" element={<ExerciseLibrary />} />
         <Route path="/body/charts" element={<BodyCharts />} />
         <Route path="/body/photos" element={<ProgressPhotos />} />
         <Route path="/settings" element={<Settings />} />

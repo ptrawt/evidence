@@ -10,6 +10,11 @@ import { loadMoney, clearMoney } from '../store/moneySlice'
 import { loadKnowledge, clearKnowledge } from '../store/knowledgeSlice'
 import { loadPlanItems, clearPlanner } from '../store/plannerSlice'
 import { clearPhotos } from '../store/photosSlice'
+import { loadWorkoutSessions, clearWorkouts } from '../store/workoutSlice'
+import { loadWorkoutSplit, resetWorkoutSplit } from '../store/workoutSplitSlice'
+import { loadCustomExercises, clearCustomExercises } from '../store/customExercisesSlice'
+import { loadExerciseTargets, clearExerciseTargets } from '../store/exerciseTargetsSlice'
+import { loadExerciseInfo, clearExerciseInfo } from '../store/exerciseInfoSlice'
 
 export function useDataSync(userId: string | null) {
   const dispatch = useAppDispatch()
@@ -26,6 +31,11 @@ export function useDataSync(userId: string | null) {
       dispatch(clearKnowledge())
       dispatch(clearPlanner())
       dispatch(clearPhotos())
+      dispatch(clearWorkouts())
+      dispatch(resetWorkoutSplit())
+      dispatch(clearCustomExercises())
+      dispatch(clearExerciseTargets())
+      dispatch(clearExerciseInfo())
       return
     }
 
@@ -46,5 +56,10 @@ export function useDataSync(userId: string | null) {
     dispatch(loadMoney(userId))
     dispatch(loadKnowledge(userId))
     dispatch(loadPlanItems(userId))
+    dispatch(loadWorkoutSessions(userId))
+    dispatch(loadWorkoutSplit(userId))
+    dispatch(loadCustomExercises(userId))
+    dispatch(loadExerciseTargets(userId))
+    dispatch(loadExerciseInfo(userId))
   }, [userId, dispatch])
 }

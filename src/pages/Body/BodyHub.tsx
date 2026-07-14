@@ -3,7 +3,7 @@ import {
   Box, Typography, Card, Button, LinearProgress, Chip, Switch,
   FormControlLabel, Divider,
 } from '@mui/material'
-import { Restaurant as RestaurantIcon, FitnessCenter as FitnessCenterIcon, BarChart as BarChartIcon, PhotoCamera as PhotoIcon } from '@mui/icons-material'
+import { Restaurant as RestaurantIcon, MonitorWeight as MonitorWeightIcon, BarChart as BarChartIcon, PhotoCamera as PhotoIcon } from '@mui/icons-material'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { toggleStrictMode } from '../../store/bodySettingsSlice'
 import {
@@ -11,7 +11,9 @@ import {
   selectBodySettings, selectCalorieStatus, selectTodayFood,
   selectLatestWeight, select7DayAvgWeight, selectLowestWeight,
   selectStartWeight, selectWeightChangeThisWeek,
+  selectTodayWorkoutSessions, selectActiveWorkout, selectWorkoutWeekNumber, selectTodayWorkoutStats,
 } from '../../store/bodySelectors'
+import { WEEKDAY_LABELS, todayWeekDay } from '../../lib/db/workoutSplit'
 import { MEAL_LABELS, MEAL_EMOJI, type Meal } from '../../types/body'
 import { CALORIE_STATUS_COLOR as STATUS_COLOR, CALORIE_STATUS_LABEL as STATUS_LABEL } from '../../lib/constants'
 import StrictModeAlerts from './StrictModeAlerts'
@@ -32,6 +34,10 @@ export default function BodyHub() {
   const lowestWeight = useAppSelector(selectLowestWeight)
   const startWeight = useAppSelector(selectStartWeight)
   const weekChange = useAppSelector(selectWeightChangeThisWeek)
+  const todayWorkouts = useAppSelector(selectTodayWorkoutSessions)
+  const activeWorkout = useAppSelector(selectActiveWorkout)
+  const workoutWeek = useAppSelector(selectWorkoutWeekNumber)
+  const todayWorkoutStats = useAppSelector(selectTodayWorkoutStats)
 
   const kcalPct = Math.min((todayKcal / settings.calorieTarget) * 100, 100)
   const statusColor = STATUS_COLOR[calorieStatus]
@@ -65,6 +71,42 @@ export default function BodyHub() {
       </Box>
 
       {settings.strictMode && <StrictModeAlerts />}
+
+      {/* Workout */}
+      <Card sx={{ p: 2.5, mb: 2, border: activeWorkout ? '1px solid rgba(34,197,94,0.35)' : undefined }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: activeWorkout || todayWorkouts.length > 0 ? 1.5 : 0 }}>
+          <Box>
+            <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>🏋️ Workout</Typography>
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              Week {workoutWeek} · {WEEKDAY_LABELS[todayWeekDay()]}
+            </Typography>
+          </Box>
+          {activeWorkout && (
+            <Chip label="IN PROGRESS" size="small" sx={{ bgcolor: 'rgba(34,197,94,0.15)', color: '#22c55e', fontWeight: 800, fontSize: '0.65rem' }} />
+          )}
+          {!activeWorkout && todayWorkouts.length > 0 && (
+            <Chip label={`${todayWorkouts.length} logged today`} size="small" sx={{ bgcolor: 'rgba(34,197,94,0.15)', color: '#22c55e', fontWeight: 800, fontSize: '0.65rem' }} />
+          )}
+        </Box>
+        {todayWorkoutStats.setCount > 0 && (
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 1.5 }}>
+            <Typography variant="caption" sx={{ color: 'text.secondary' }}>
+              {todayWorkoutStats.exerciseCount} exercises · {todayWorkoutStats.setCount} sets
+            </Typography>
+            <Typography variant="caption" sx={{ fontWeight: 700, color: '#22c55e' }}>
+              {todayWorkoutStats.totalVolume.toLocaleString()} kg volume
+            </Typography>
+          </Box>
+        )}
+        <Button
+          fullWidth
+          variant="contained"
+          onClick={() => navigate('/body/workout')}
+          sx={{ bgcolor: '#22c55e', color: '#000', fontWeight: 800 }}
+        >
+          {activeWorkout ? 'Continue Workout' : 'Start Workout'}
+        </Button>
+      </Card>
 
       {/* Calorie Budget */}
       <Card sx={{ p: 2.5, mb: 2 }}>
@@ -218,7 +260,7 @@ export default function BodyHub() {
           sx={{ borderColor: 'rgba(255,255,255,0.12)', color: 'text.primary' }}>
           Food Log
         </Button>
-        <Button fullWidth variant="outlined" startIcon={<FitnessCenterIcon />}
+        <Button fullWidth variant="outlined" startIcon={<MonitorWeightIcon />}
           onClick={() => navigate('/body/weight')}
           sx={{ borderColor: 'rgba(255,255,255,0.12)', color: 'text.primary' }}>
           Weight

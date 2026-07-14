@@ -109,7 +109,10 @@ create table public.body_settings (
   calorie_target integer not null default 2000,
   protein_target integer not null default 150,
   strict_mode boolean not null default false,
-  weight_goal numeric
+  weight_goal numeric,
+  default_rep_min integer not null default 8,
+  default_rep_max integer not null default 12,
+  default_target_rpe integer not null default 8
 );
 alter table public.body_settings enable row level security;
 create policy "Users manage own body settings" on public.body_settings
@@ -220,6 +223,89 @@ create table public.progress_photos (
 );
 alter table public.progress_photos enable row level security;
 create policy "Users manage own photos" on public.progress_photos
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+```
+
+Also add the **workout sessions** table (live workout log — actual sets/reps/weight/RPE performed, separate from the Planner's prescribed workouts). Each entry in `exercises` is `{ name, notes, sets: [{ reps, weightKg?, rpe? }] }` — weight and RPE are tracked per set:
+
+```sql
+create table public.workout_sessions (
+  id text primary key,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  date text not null,
+  started_at timestamptz not null,
+  finished_at timestamptz not null,
+  exercises jsonb not null default '[]',
+  notes text not null default '',
+  xp integer not null default 0,
+  created_at timestamptz not null default now()
+);
+alter table public.workout_sessions enable row level security;
+create policy "Users manage own workout sessions" on public.workout_sessions
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+```
+
+Also add the **workout split** table (fixed weekly routine — which exercises belong to each weekday, auto-loaded when starting a workout on that day):
+
+```sql
+create table public.workout_splits (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  days jsonb not null default '{}',
+  updated_at timestamptz not null default now()
+);
+alter table public.workout_splits enable row level security;
+create policy "Users manage own workout split" on public.workout_splits
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+```
+
+Also add the **custom exercises** table (exercise names the user typed that weren't in the built-in library — saved so they show up in the autocomplete dropdown next time):
+
+```sql
+create table public.custom_exercises (
+  id text primary key,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  name text not null,
+  created_at timestamptz not null default now(),
+  unique(user_id, name)
+);
+alter table public.custom_exercises enable row level security;
+create policy "Users manage own custom exercises" on public.custom_exercises
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+```
+
+Also add the **exercise targets** table (per-exercise rep range + target RPE, used to drive the Progressive Overload recommendation — "increase weight" vs "increase reps" vs "stay" — shown while logging a workout):
+
+```sql
+create table public.exercise_targets (
+  user_id uuid references auth.users(id) on delete cascade not null,
+  exercise_name text not null,
+  rep_min integer not null default 8,
+  rep_max integer not null default 12,
+  target_rpe integer not null default 8,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, exercise_name)
+);
+alter table public.exercise_targets enable row level security;
+create policy "Users manage own exercise targets" on public.exercise_targets
+  for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
+```
+
+Also add the **exercise info** table (personal exercise reference sheet — category, type, difficulty, priority, plus rich details like muscle cues, ROM, common mistakes, breathing, so you don't need to leave the app during a workout to check technique):
+
+```sql
+create table public.exercise_info (
+  user_id uuid references auth.users(id) on delete cascade not null,
+  exercise_name text not null,
+  category text not null default '',
+  type text not null default '',
+  difficulty integer not null default 1,
+  priority text not null default 'Medium',
+  details jsonb not null default '{}',
+  updated_at timestamptz not null default now(),
+  primary key (user_id, exercise_name)
+);
+alter table public.exercise_info enable row level security;
+create policy "Users manage own exercise info" on public.exercise_info
   for all using (auth.uid() = user_id) with check (auth.uid() = user_id);
 ```
 

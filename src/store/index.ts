@@ -9,6 +9,11 @@ import moneyReducer from './moneySlice'
 import knowledgeReducer from './knowledgeSlice'
 import plannerReducer from './plannerSlice'
 import photosReducer from './photosSlice'
+import workoutReducer from './workoutSlice'
+import workoutSplitReducer from './workoutSplitSlice'
+import customExercisesReducer from './customExercisesSlice'
+import exerciseTargetsReducer from './exerciseTargetsSlice'
+import exerciseInfoReducer from './exerciseInfoSlice'
 
 export const store = configureStore({
   reducer: {
@@ -22,6 +27,11 @@ export const store = configureStore({
     knowledge: knowledgeReducer,
     planner: plannerReducer,
     photos: photosReducer,
+    workout: workoutReducer,
+    workoutSplit: workoutSplitReducer,
+    customExercises: customExercisesReducer,
+    exerciseTargets: exerciseTargetsReducer,
+    exerciseInfo: exerciseInfoReducer,
   },
 })
 
