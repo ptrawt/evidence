@@ -112,7 +112,8 @@ create table public.body_settings (
   weight_goal numeric,
   default_rep_min integer not null default 8,
   default_rep_max integer not null default 12,
-  default_target_rpe integer not null default 8
+  default_target_rpe integer not null default 8,
+  workout_week_anchor text
 );
 alter table public.body_settings enable row level security;
 create policy "Users manage own body settings" on public.body_settings

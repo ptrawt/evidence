@@ -39,11 +39,13 @@ export const selectExerciseOptions = createSelector(
 
 export const selectWorkoutWeekNumber = createSelector(
   selectWorkoutSessions,
-  sessions => {
-    if (sessions.length === 0) return 1
-    const firstDate = sessions.reduce((min, s) => s.date < min ? s.date : min, sessions[0].date)
-    const diffDays = Math.floor((new Date(todayISO()).getTime() - new Date(firstDate).getTime()) / 86400000)
-    return Math.floor(diffDays / 7) + 1
+  selectBodySettings,
+  (sessions, settings) => {
+    const anchor = settings.workoutWeekAnchor
+      ?? (sessions.length > 0 ? sessions.reduce((min, s) => s.date < min ? s.date : min, sessions[0].date) : null)
+    if (!anchor) return 1
+    const diffDays = Math.floor((new Date(todayISO()).getTime() - new Date(anchor).getTime()) / 86400000)
+    return Math.max(1, Math.floor(diffDays / 7) + 1)
   },
 )
 

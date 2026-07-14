@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Box, Typography, Card, Button, TextField, IconButton, Chip } from '@mui/material'
 import { Close as CloseIcon } from '@mui/icons-material'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
@@ -32,6 +32,12 @@ export default function ActiveExerciseCard({ exercise, exerciseIndex }: { exerci
     repMin: bodySettings.defaultRepMin, repMax: bodySettings.defaultRepMax, targetRpe: bodySettings.defaultTargetRpe,
   }, [savedTarget, bodySettings.defaultRepMin, bodySettings.defaultRepMax, bodySettings.defaultTargetRpe])
 
+  // findLastExerciseSets scans the full session history — only recompute when
+  // sessions or the exercise name actually change, not on every parent re-render.
+  const lastSets = useMemo(() => findLastExerciseSets(sessions, exercise.name), [sessions, exercise.name])
+  const recommendation = useMemo(() => lastSets ? getRecommendation(lastSets, target) : null, [lastSets, target])
+  const lastSet = lastSets?.[lastSets.length - 1]
+
   const [weight, setWeight] = useState('')
   const [rpe, setRpe] = useState('')
   const [reps, setReps] = useState('')
@@ -41,10 +47,15 @@ export default function ActiveExerciseCard({ exercise, exerciseIndex }: { exerci
   const [repMax, setRepMax] = useState(String(target.repMax))
   const [targetRpe, setTargetRpe] = useState(String(target.targetRpe))
 
-  // findLastExerciseSets scans the full session history — only recompute when
-  // sessions or the exercise name actually change, not on every parent re-render.
-  const lastSets = useMemo(() => findLastExerciseSets(sessions, exercise.name), [sessions, exercise.name])
-  const recommendation = useMemo(() => lastSets ? getRecommendation(lastSets, target) : null, [lastSets, target])
+  // Prefills weight/reps/RPE from the last time this exercise was logged. Runs as an
+  // effect (not just initial state) because session history can still be loading —
+  // or arrive after this exercise was already added — when the card first mounts.
+  useEffect(() => {
+    if (!lastSet || exercise.sets.length > 0) return
+    setWeight(prev => prev || (lastSet.weightKg !== undefined ? String(lastSet.weightKg) : prev))
+    setRpe(prev => prev || (lastSet.rpe !== undefined ? String(lastSet.rpe) : prev))
+    setReps(prev => prev || String(lastSet.reps))
+  }, [lastSet, exercise.sets.length])
 
   const handleSaveTarget = () => {
     if (!user) return
@@ -172,6 +183,12 @@ export default function ActiveExerciseCard({ exercise, exerciseIndex }: { exerci
             />
           ))}
         </Box>
+      )}
+
+      {lastSet && exercise.sets.length === 0 && (
+        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 0.75 }}>
+          ครั้งก่อน: {lastSet.weightKg ?? '-'}kg × {lastSet.reps} reps{lastSet.rpe ? ` @ RPE ${lastSet.rpe}` : ''} (กรอกไว้ให้แล้ว แก้ได้เลย)
+        </Typography>
       )}
 
       <Box sx={{ display: 'flex', gap: 1, mb: 1.5 }}>

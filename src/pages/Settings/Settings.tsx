@@ -6,11 +6,12 @@ import {
 } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { updateSettings, toggleStrictMode, saveBodySettings } from '../../store/bodySettingsSlice'
-import { selectBodySettings } from '../../store/bodySelectors'
+import { selectBodySettings, selectWorkoutWeekNumber } from '../../store/bodySelectors'
 import { useAuth } from '../../contexts/AuthContext'
 import { isPushSupported, subscribeToPush, unsubscribeFromPush, getPushSubscription } from '../../lib/push'
 import { savePushSubscription, deletePushSubscription, updateReminderHour, fetchReminderHour } from '../../lib/db/pushSubscriptions'
 import { exportEvidence, exportFood, exportWeight, exportMoney, exportKnowledge } from '../../lib/exportCsv'
+import { dateOffsetISO } from '../../lib/constants'
 
 const HOURS = Array.from({ length: 18 }, (_, i) => i + 5) // 5:00–22:00
 
@@ -18,6 +19,7 @@ export default function Settings() {
   const dispatch = useAppDispatch()
   const { user, signOut } = useAuth()
   const settings = useAppSelector(selectBodySettings)
+  const currentWeekNumber = useAppSelector(selectWorkoutWeekNumber)
   const evidence = useAppSelector(s => s.evidence.entries)
   const food = useAppSelector(s => s.food.entries)
   const weight = useAppSelector(s => s.weight.entries)
@@ -30,8 +32,10 @@ export default function Settings() {
   const [defaultRepMin, setDefaultRepMin] = useState(String(settings.defaultRepMin))
   const [defaultRepMax, setDefaultRepMax] = useState(String(settings.defaultRepMax))
   const [defaultTargetRpe, setDefaultTargetRpe] = useState(String(settings.defaultTargetRpe))
+  const [currentWeek, setCurrentWeek] = useState(String(currentWeekNumber))
   const [saved, setSaved] = useState(false)
   const [overloadSaved, setOverloadSaved] = useState(false)
+  const [weekSaved, setWeekSaved] = useState(false)
 
   // Push notifications
   const pushSupported = isPushSupported()
@@ -69,6 +73,15 @@ export default function Settings() {
     dispatch(updateSettings(next))
     if (user) dispatch(saveBodySettings({ userId: user.id, settings: next }))
     setOverloadSaved(true)
+  }
+
+  const handleSaveCurrentWeek = () => {
+    const week = parseInt(currentWeek, 10)
+    if (isNaN(week) || week <= 0) return
+    const next = { ...settings, workoutWeekAnchor: dateOffsetISO((week - 1) * 7) }
+    dispatch(updateSettings(next))
+    if (user) dispatch(saveBodySettings({ userId: user.id, settings: next }))
+    setWeekSaved(true)
   }
 
   const handleToggleStrict = () => {
@@ -211,6 +224,25 @@ export default function Settings() {
       {/* ── Workout — used less often than daily targets, but still active tuning ── */}
       <Typography variant="subtitle2" sx={{ fontWeight: 800, color: 'primary.main', mb: 1.5 }}>🏋️ Workout</Typography>
 
+      <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>Current Week</Typography>
+      <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
+        <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 2 }}>
+          ตอนนี้ระบบคำนวณให้อยู่ Week {currentWeekNumber} — ถ้าไม่ตรง (เช่น เพิ่งเริ่มใช้แอพแต่เล่นมาก่อนแล้ว) แก้ตรงนี้ได้เลย
+        </Typography>
+        <Box sx={{ display: 'flex', gap: 1.5 }}>
+          <TextField
+            label="อยู่สัปดาห์ที่" value={currentWeek}
+            onChange={e => setCurrentWeek(e.target.value)}
+            type="number" size="small" fullWidth
+            slotProps={{ htmlInput: { min: 1 } }}
+          />
+          <Button variant="contained" onClick={handleSaveCurrentWeek}
+            sx={{ bgcolor: 'primary.main', color: '#000', fontWeight: 700, px: 3 }}>
+            Save
+          </Button>
+        </Box>
+      </Card>
+
       <Typography variant="overline" sx={{ color: 'text.secondary', letterSpacing: 2 }}>Progressive Overload Defaults</Typography>
       <Card sx={{ p: 2.5, mt: 1, mb: 3 }}>
         <Typography variant="caption" sx={{ color: 'text.secondary', display: 'block', mb: 2 }}>
@@ -296,6 +328,11 @@ export default function Settings() {
       <Snackbar open={overloadSaved} autoHideDuration={2000} onClose={() => setOverloadSaved(false)}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
         <Alert severity="success" variant="filled" sx={{ fontWeight: 700 }}>Progressive overload defaults saved</Alert>
+      </Snackbar>
+
+      <Snackbar open={weekSaved} autoHideDuration={2000} onClose={() => setWeekSaved(false)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+        <Alert severity="success" variant="filled" sx={{ fontWeight: 700 }}>Current week saved</Alert>
       </Snackbar>
 
       <Snackbar open={timeSaved} autoHideDuration={2000} onClose={() => setTimeSaved(false)}

@@ -22,7 +22,7 @@ export const deleteWorkoutSessionAsync = createAsyncThunk(
   },
 )
 
-interface ActiveWorkout {
+export interface ActiveWorkout {
   startedAt: string
   exercises: LoggedExercise[]
   notes: string
@@ -41,6 +41,9 @@ const workoutSlice = createSlice({
   initialState: { sessions: [], active: null, status: 'idle' } as WorkoutState,
   reducers: {
     clearWorkouts(state) { state.sessions = []; state.active = null; state.status = 'idle' },
+    restoreActiveWorkout(state, action: PayloadAction<ActiveWorkout | null>) {
+      state.active = action.payload
+    },
     startActiveWorkout(state, action: PayloadAction<{ prefillNames?: string[] } | undefined>) {
       state.active = {
         startedAt: new Date().toISOString(),
@@ -86,7 +89,7 @@ const workoutSlice = createSlice({
 })
 
 export const {
-  clearWorkouts, startActiveWorkout, cancelActiveWorkout,
+  clearWorkouts, restoreActiveWorkout, startActiveWorkout, cancelActiveWorkout,
   addActiveExercise, removeActiveExercise, setActiveExerciseNotes,
   logActiveSet, removeActiveSet,
 } = workoutSlice.actions

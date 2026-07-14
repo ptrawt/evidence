@@ -9,7 +9,7 @@ import moneyReducer from './moneySlice'
 import knowledgeReducer from './knowledgeSlice'
 import plannerReducer from './plannerSlice'
 import photosReducer from './photosSlice'
-import workoutReducer from './workoutSlice'
+import workoutReducer, { restoreActiveWorkout, type ActiveWorkout } from './workoutSlice'
 import workoutSplitReducer from './workoutSplitSlice'
 import customExercisesReducer from './customExercisesSlice'
 import exerciseTargetsReducer from './exerciseTargetsSlice'
@@ -37,3 +37,25 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
+
+// Persist the in-progress workout to localStorage so an accidental tab close or
+// reload mid-workout doesn't wipe everything the user already logged — active
+// workout state otherwise lives only in memory.
+const ACTIVE_WORKOUT_KEY = 'evidence_active_workout'
+
+try {
+  const saved = localStorage.getItem(ACTIVE_WORKOUT_KEY)
+  if (saved) store.dispatch(restoreActiveWorkout(JSON.parse(saved) as ActiveWorkout))
+} catch {
+  localStorage.removeItem(ACTIVE_WORKOUT_KEY)
+}
+
+let lastPersistedActiveWorkout: string | null = null
+store.subscribe(() => {
+  const active = store.getState().workout.active
+  const serialized = active ? JSON.stringify(active) : null
+  if (serialized === lastPersistedActiveWorkout) return
+  lastPersistedActiveWorkout = serialized
+  if (serialized) localStorage.setItem(ACTIVE_WORKOUT_KEY, serialized)
+  else localStorage.removeItem(ACTIVE_WORKOUT_KEY)
+})

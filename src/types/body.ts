@@ -40,6 +40,7 @@ export interface BodySettings {
   defaultRepMin: number
   defaultRepMax: number
   defaultTargetRpe: number
+  workoutWeekAnchor?: string
 }
 
 export const DEFAULT_BODY_SETTINGS: BodySettings = {
@@ -50,4 +51,5 @@ export const DEFAULT_BODY_SETTINGS: BodySettings = {
   defaultRepMin: 8,
   defaultRepMax: 12,
   defaultTargetRpe: 8,
+  workoutWeekAnchor: undefined,
 }
